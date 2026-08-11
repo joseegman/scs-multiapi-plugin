@@ -19,8 +19,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 @Slf4j
 public final class OpenApiGeneratorFixtures {
 
@@ -1636,21 +1634,6 @@ return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles,
 				.of(COMMON_PATH + "assets/DashboardDTO.java", COMMON_PATH + "assets/SummaryDTO.java");
 		return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles, DEFAULT_TARGET_API,
 				DEFAULT_MODEL_API, Collections.emptyList(), null);
-	}
-
-	static Function<Path, Boolean> validateExternalSchemaFileRefDebug() {
-		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/testexternalschemafileref";
-		final String DEFAULT_MODEL_API = "generated/com/sngular/multifileplugin/testexternalschemafileref/model";
-		return path -> {
-			final Path modelPath = path.resolve("target").resolve(DEFAULT_MODEL_API);
-			final var files = modelPath.toFile().listFiles();
-			if (files != null) {
-				for (final var f : files) {
-					System.out.println("GENERATED MODEL: " + f.getName());
-				}
-			}
-			return true;
-		};
 	}
 
 	private static Boolean commonTest(final Path resultPath, final List<String> expectedFile,
