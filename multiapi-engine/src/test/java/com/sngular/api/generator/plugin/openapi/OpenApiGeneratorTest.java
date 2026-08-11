@@ -107,6 +107,8 @@ class OpenApiGeneratorTest {
             OpenApiGeneratorFixtures.validateExternalPathItemRefGeneration()),
         Arguments.of("testNestedExternalRefs", OpenApiGeneratorFixtures.TEST_NESTED_EXTERNAL_REFS,
             OpenApiGeneratorFixtures.validateNestedExternalRefs()),
+        Arguments.of("testNestedRefInAllOf", OpenApiGeneratorFixtures.TEST_NESTED_REF_IN_ALLOF,
+            OpenApiGeneratorFixtures.validateNestedRefInAllOf()),
         Arguments.of("testNoContentResponses", OpenApiGeneratorFixtures.TEST_NO_CONTENT_RESPONSES,
             OpenApiGeneratorFixtures.validateNoContentResponses()),
         Arguments.of("testExternalSchemaFileRef", OpenApiGeneratorFixtures.TEST_EXTERNAL_SCHEMA_FILE_REF,

@@ -1,0 +1,10 @@
+---
+allOf:
+  - $ref: './BaseProduct.yml'
+  - type: object
+    properties:
+      name:
+        type: string
+      price:
+        type: number
+        format: double

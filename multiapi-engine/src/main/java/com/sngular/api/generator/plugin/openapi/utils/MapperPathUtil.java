@@ -363,7 +363,7 @@ public class MapperPathUtil {
       } else {
         try {
           final URI baseUri = baseDir.resolve(specFile.getFilePath()).getParent().toUri();
-          realResponse = SchemaUtil.getPojoFromRef(baseUri, refValue);
+          realResponse = SchemaUtil.loadAndResolveRefs(baseUri, refValue);
         } catch (final Exception e) {
           return;
         }

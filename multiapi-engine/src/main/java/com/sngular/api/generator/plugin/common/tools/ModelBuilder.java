@@ -739,6 +739,11 @@ public final class ModelBuilder {
         for (var fieldObject : fieldObjectArrayList) {
           fieldObject.setRequired(true);
         }
+      } else if (ApiTool.hasProperties(ref)) {
+        ApiTool.getProperties(ref).forEachRemaining(processProperties("", totalSchemas, compositedSchemas, fieldObjectArrayList, specFile, ref, antiLoopList, baseDir));
+        for (var fieldObject : fieldObjectArrayList) {
+          fieldObject.setRequired(true);
+        }
       }
     }
     return fieldObjectArrayList;
