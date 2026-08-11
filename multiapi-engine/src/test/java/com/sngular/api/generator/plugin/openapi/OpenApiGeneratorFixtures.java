@@ -19,6 +19,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @Slf4j
 public final class OpenApiGeneratorFixtures {
 
