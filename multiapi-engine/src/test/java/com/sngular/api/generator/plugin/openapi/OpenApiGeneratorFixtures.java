@@ -244,6 +244,13 @@ public final class OpenApiGeneratorFixtures {
 					.modelNameSuffix("DTO")
 					.useLombokModelAnnotation(true).build());
 
+	static final List<SpecFile> TEST_EXTERNAL_RESPONSE_REF = List
+			.of(SpecFile.builder().filePath("openapigenerator/testExternalResponseRef/api-test.yml")
+					.apiPackage("com.sngular.multifileplugin.testexternalresponseref")
+					.modelPackage("com.sngular.multifileplugin.testexternalresponseref.model")
+					.modelNameSuffix("DTO")
+					.useLombokModelAnnotation(true).build());
+
 	static final List<SpecFile> TEST_ANY_OF_IN_RESPONSE = List
 			.of(SpecFile.builder().filePath("openapigenerator/testAnyOfInResponse/api-test.yml")
 					.apiPackage("com.sngular.multifileplugin.testanyofinresponse")
@@ -1634,6 +1641,16 @@ return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles,
 		final List<String> expectedTestApiFiles = List.of(COMMON_PATH + "assets/DashboardApi.java", COMMON_PATH + "assets/SummaryApi.java");
 		final List<String> expectedTestApiModelFiles = List
 				.of(COMMON_PATH + "assets/DashboardDTO.java", COMMON_PATH + "assets/SummaryDTO.java");
+		return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles, DEFAULT_TARGET_API,
+				DEFAULT_MODEL_API, Collections.emptyList(), null);
+	}
+
+	static Function<Path, Boolean> validateExternalResponseRef() {
+		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/testexternalresponseref";
+		final String DEFAULT_MODEL_API = "generated/com/sngular/multifileplugin/testexternalresponseref/model";
+		final String COMMON_PATH = "openapigenerator/testExternalResponseRef/";
+		final List<String> expectedTestApiFiles = List.of(COMMON_PATH + "assets/WidgetsApi.java");
+		final List<String> expectedTestApiModelFiles = List.of(COMMON_PATH + "assets/WidgetDTO.java");
 		return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles, DEFAULT_TARGET_API,
 				DEFAULT_MODEL_API, Collections.emptyList(), null);
 	}
