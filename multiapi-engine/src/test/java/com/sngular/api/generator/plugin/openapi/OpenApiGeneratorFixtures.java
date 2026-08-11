@@ -132,6 +132,13 @@ public final class OpenApiGeneratorFixtures {
 					.clientPackage("com.sngular.multifileplugin.clpkgwebclientapi.client").modelNameSuffix("DTO")
 					.useLombokModelAnnotation(false).callMode(true).build());
 
+	static final List<SpecFile> TEST_CLIENT_PACKAGE_WEB_CLIENT_BEARER_AUTH_GENERATION = List
+			.of(SpecFile.builder().filePath("openapigenerator/testClientPackageWebClientBearerAuthGeneration/api-test.yml")
+					.apiPackage("com.sngular.multifileplugin.clpkgbearerwebclientapi")
+					.modelPackage("com.sngular.multifileplugin.clpkgbearerwebclientapi.model")
+					.clientPackage("com.sngular.multifileplugin.clpkgbearerwebclientapi.client").modelNameSuffix("DTO")
+					.useLombokModelAnnotation(false).callMode(true).build());
+
 	static final List<SpecFile> TEST_REST_CLIENT_GENERATION = List
 			.of(SpecFile.builder().filePath("openapigenerator/testRestClientApiGeneration/api-test.yml")
 					.apiPackage("com.sngular.multifileplugin.restclient")
@@ -814,6 +821,30 @@ public final class OpenApiGeneratorFixtures {
 
 	}
 
+	static Function<Path, Boolean> validateClientPackageWebClientBearerAuthGeneration() {
+
+		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/clpkgbearerwebclientapi/client";
+
+		final String DEFAULT_MODEL_API = "generated/com/sngular/multifileplugin/clpkgbearerwebclientapi/client/auth";
+
+		final String DEFAULT_EXCEPTION_API = "generated/com/sngular/multifileplugin/clpkgbearerwebclientapi/model/exception";
+
+		final String COMMON_PATH = "openapigenerator/testClientPackageWebClientBearerAuthGeneration/";
+
+		final String ASSETS_PATH = COMMON_PATH + "assets/";
+
+		final List<String> expectedTestApiFile = List.of(ASSETS_PATH + "TestClient.java");
+
+		final List<String> expectedTestApiModelFiles = List.of(ASSETS_PATH + "TestAuth.java",
+				ASSETS_PATH + "TestHttpBearerAuth.java");
+
+		final List<String> expectedExceptionFiles = List.of(ASSETS_PATH + "ModelClassException.java");
+
+		return path -> commonTest(path, expectedTestApiFile, expectedTestApiModelFiles, DEFAULT_TARGET_API,
+				DEFAULT_MODEL_API, expectedExceptionFiles, DEFAULT_EXCEPTION_API);
+
+	}
+
 	static Function<Path, Boolean> validateRestClientGeneration() {
 
 		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/restclient";
@@ -899,8 +930,7 @@ public final class OpenApiGeneratorFixtures {
 
 		final List<String> expectedTestClientApiFile = List.of(ASSETS_PATH + "client/ApiRestClient.java");
 
-		final List<String> expectedTestClientAuthModelFiles = List.of(ASSETS_PATH + "client/auth/Authentication.java",
-				ASSETS_PATH + "client/auth/HttpBasicAuth.java");
+		final List<String> expectedTestClientAuthModelFiles = List.of(ASSETS_PATH + "client/auth/Authentication.java");
 
 		return path -> commonTest(path, expectedTestApiFile, Collections.emptyList(), DEFAULT_TARGET_API, null,
 				Collections.emptyList(), null)
