@@ -223,6 +223,13 @@ public final class OpenApiGeneratorFixtures {
 					.modelNameSuffix("DTO")
 					.useLombokModelAnnotation(true).build());
 
+	static final List<SpecFile> TEST_NESTED_REF_IN_ALLOF = List
+			.of(SpecFile.builder().filePath("openapigenerator/testNestedRefInAllOf/api-test.yml")
+					.apiPackage("com.sngular.multifileplugin.testnestedrefinallof")
+					.modelPackage("com.sngular.multifileplugin.testnestedrefinallof.model")
+					.modelNameSuffix("DTO")
+					.useLombokModelAnnotation(true).build());
+
 	static final List<SpecFile> TEST_NO_CONTENT_RESPONSES = List
 			.of(SpecFile.builder().filePath("openapigenerator/testNoContentResponses/api-test.yml")
 					.apiPackage("com.sngular.multifileplugin.testnocontentresponses")
@@ -1577,6 +1584,22 @@ public final class OpenApiGeneratorFixtures {
 
 		final List<String> expectedTestApiModelFiles = List
 				.of(COMMON_PATH + "assets/InlineResponse200ListServicesDTO.java", COMMON_PATH + "assets/Service_typeDTO.java");
+
+return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles, DEFAULT_TARGET_API,
+			DEFAULT_MODEL_API, Collections.emptyList(), null);
+	}
+
+	static Function<Path, Boolean> validateNestedRefInAllOf() {
+		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/testnestedrefinallof";
+
+		final String DEFAULT_MODEL_API = "generated/com/sngular/multifileplugin/testnestedrefinallof/model";
+
+		final String COMMON_PATH = "openapigenerator/testNestedRefInAllOf/";
+
+		final List<String> expectedTestApiFiles = List.of(COMMON_PATH + "assets/ProductsApi.java");
+
+		final List<String> expectedTestApiModelFiles = List
+				.of(COMMON_PATH + "assets/InlineResponse200ListProductsDTO.java");
 
 		return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles, DEFAULT_TARGET_API,
 				DEFAULT_MODEL_API, Collections.emptyList(), null);
