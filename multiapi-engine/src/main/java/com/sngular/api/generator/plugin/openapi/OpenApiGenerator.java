@@ -25,6 +25,7 @@ import com.sngular.api.generator.plugin.common.tools.ApiTool;
 import com.sngular.api.generator.plugin.common.tools.MapperContentUtil;
 import com.sngular.api.generator.plugin.common.tools.MapperUtil;
 import com.sngular.api.generator.plugin.common.tools.PathUtil;
+import com.sngular.api.generator.plugin.common.tools.SchemaUtil;
 import com.sngular.api.generator.plugin.exception.GeneratorTemplateException;
 import com.sngular.api.generator.plugin.openapi.exception.DuplicateModelClassException;
 import com.sngular.api.generator.plugin.openapi.model.AuthObject;
@@ -245,8 +246,22 @@ public class OpenApiGenerator {
     }
 
     if (ApiTool.hasRef(basicSchema)) {
+      final String refValue = ApiTool.getRefValue(basicSchema);
       final var refSchema = MapperUtil.getRefSchemaName(basicSchema, schemaName);
-      writeSchemaObject(specFile, refSchema, basicSchemaMap.get(refSchema), basicSchemaMap, modelPackage);
+      JsonNode resolvedSchema = basicSchemaMap.get(refSchema);
+      if (Objects.isNull(resolvedSchema) && StringUtils.isNotEmpty(refValue) && !refValue.startsWith("#")) {
+        // Whole-file external $ref (no JSON-pointer fragment): the file IS the schema.
+        // Resolve it from the filesystem so the model is generated.
+        try {
+          resolvedSchema =
+              SchemaUtil.solveRef(refValue, basicSchemaMap, this.baseDir.resolve(specFile.getFilePath()).getParent().toUri());
+        } catch (final Exception e) {
+          resolvedSchema = null;
+        }
+      }
+      if (Objects.nonNull(resolvedSchema)) {
+        writeSchemaObject(specFile, refSchema, resolvedSchema, basicSchemaMap, modelPackage);
+      }
     } else if (!ApiTool.isArray(basicSchema) && !TypeConstants.STRING.equalsIgnoreCase(ApiTool.getType(basicSchema))) {
       writeSchemaObject(specFile, schemaName, basicSchema, basicSchemaMap, modelPackage);
     }

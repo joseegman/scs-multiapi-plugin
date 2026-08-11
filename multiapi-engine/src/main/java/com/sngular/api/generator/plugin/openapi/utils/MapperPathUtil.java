@@ -451,7 +451,8 @@ public class MapperPathUtil {
       refSchema = SchemaUtil.solveRef(refValue, globalObject.getSchemaMap(),
                                       baseDir.resolve(specFile.getFilePath()).getParent().toUri());
       if (Objects.nonNull(refSchema) && !refValue.contains("#")) {
-        globalObject.getSchemaMap().put(inlinePojoName, refSchema);
+        final String key = resolveSchemaMapKey(refValue, refSchema, inlinePojoName);
+        globalObject.getSchemaMap().put(key, refSchema);
       }
     } else if (refValue.contains("requestBodies")) {
       refSchema = SchemaUtil.solveRef(refValue, globalObject.getRequestBodyMap(),
@@ -468,6 +469,17 @@ public class MapperPathUtil {
       globalObject.getSchemaMap().put(inlinePojoName, refSchema);
     }
     return refSchema;
+  }
+
+  private static String resolveSchemaMapKey(final String refValue, final JsonNode resolvedSchema, final String inlinePojoName) {
+    if (StringUtils.isNotEmpty(refValue) && !refValue.startsWith("#") && !refValue.contains("#")
+        && !StringUtils.startsWith(inlinePojoName, "Inline")
+        && Objects.nonNull(resolvedSchema) && !ApiTool.hasComponents(resolvedSchema)
+        && (ApiTool.hasType(resolvedSchema) || ApiTool.isComposed(resolvedSchema) || ApiTool.isEnum(resolvedSchema))) {
+      final String fileKey = SchemaUtil.computeFileSchemaKey(refValue);
+      return StringUtils.defaultIfEmpty(fileKey, inlinePojoName);
+    }
+    return inlinePojoName;
   }
 
   private static SchemaFieldObjectType getObjectOrType(

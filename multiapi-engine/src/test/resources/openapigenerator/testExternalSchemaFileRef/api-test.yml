@@ -1,0 +1,44 @@
+---
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: External Schema File Ref Test
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:8080/v1
+paths:
+  /dashboard:
+    get:
+      summary: Get dashboard
+      operationId: getDashboard
+      tags:
+      - dashboard
+      responses:
+        '200':
+          description: Dashboard data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Dashboard"
+  /summary:
+    get:
+      summary: Get summary
+      operationId: getSummary
+      tags:
+      - summary
+      responses:
+        '200':
+          description: Summary data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Summary"
+components:
+  schemas:
+    Dashboard:
+      $ref: "schemas/Dashboard.yml"
+    Summary:
+      $ref: "schemas/Summary.yml"
