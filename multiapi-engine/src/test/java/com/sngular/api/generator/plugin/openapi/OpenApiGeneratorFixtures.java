@@ -241,6 +241,13 @@ public final class OpenApiGeneratorFixtures {
 			.of(SpecFile.builder().filePath("openapigenerator/testExternalResponseRef/api-test.yml")
 					.apiPackage("com.sngular.multifileplugin.testexternalresponseref")
 					.modelPackage("com.sngular.multifileplugin.testexternalresponseref.model")
+          .modelNameSuffix("DTO")
+					.useLombokModelAnnotation(true).build());
+
+	static final List<SpecFile> TEST_EXTERNAL_SCHEMA_FILE_REF = List
+			.of(SpecFile.builder().filePath("openapigenerator/testExternalSchemaFileRef/api-test.yml")
+					.apiPackage("com.sngular.multifileplugin.testexternalschemafileref")
+					.modelPackage("com.sngular.multifileplugin.testexternalschemafileref.model")
 					.modelNameSuffix("DTO")
 					.useLombokModelAnnotation(true).build());
 
@@ -1633,6 +1640,17 @@ return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles,
 		final String COMMON_PATH = "openapigenerator/testExternalResponseRef/";
 		final List<String> expectedTestApiFiles = List.of(COMMON_PATH + "assets/WidgetsApi.java");
 		final List<String> expectedTestApiModelFiles = List.of(COMMON_PATH + "assets/WidgetDTO.java");
+ 		return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles, DEFAULT_TARGET_API,
+				DEFAULT_MODEL_API, Collections.emptyList(), null);
+	}
+
+  static Function<Path, Boolean> validateExternalSchemaFileRef() {
+		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/testexternalschemafileref";
+		final String DEFAULT_MODEL_API = "generated/com/sngular/multifileplugin/testexternalschemafileref/model";
+		final String COMMON_PATH = "openapigenerator/testExternalSchemaFileRef/";
+		final List<String> expectedTestApiFiles = List.of(COMMON_PATH + "assets/DashboardApi.java", COMMON_PATH + "assets/SummaryApi.java");
+		final List<String> expectedTestApiModelFiles = List
+				.of(COMMON_PATH + "assets/DashboardDTO.java", COMMON_PATH + "assets/SummaryDTO.java");
 		return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles, DEFAULT_TARGET_API,
 				DEFAULT_MODEL_API, Collections.emptyList(), null);
 	}

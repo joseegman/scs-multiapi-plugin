@@ -57,7 +57,7 @@ public class SchemaUtil {
    * Computes a clean schema-map key from a file-based $ref value.
    * E.g. "./ServiceType.yml" -> "SCHEMAS/SERVICE_TYPE"
    */
-  static String computeFileSchemaKey(final String refValue) {
+  public static String computeFileSchemaKey(final String refValue) {
     try {
       final String[] parts = refValue.split("/");
       final String lastRaw = parts[parts.length - 1];
