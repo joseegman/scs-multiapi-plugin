@@ -1,0 +1,19 @@
+# Reproduction for issue #327: the root contract fragments path items AND schemas out to
+# separate files. Schemas are referenced with a *file-level fragment* pointing at a
+# components block in another file, from inside an external Path Item file.
+openapi: 3.0.0
+info:
+  title: Test File
+  description: Test file description
+  version: 0.1.0
+  contact:
+    name: Test
+    email: test@gmail.com
+servers:
+  - url: http://localhost:3000
+    description: Local server
+tags:
+  - name: Test
+paths:
+  /v1/test:
+    $ref: './paths/tests.yaml'

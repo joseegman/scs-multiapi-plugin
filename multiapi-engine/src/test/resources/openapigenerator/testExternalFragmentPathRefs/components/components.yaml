@@ -1,0 +1,8 @@
+components:
+  schemas:
+    Example:
+      type: object
+      properties:
+        exampleProperty:
+          type: string
+          example: exampleValue

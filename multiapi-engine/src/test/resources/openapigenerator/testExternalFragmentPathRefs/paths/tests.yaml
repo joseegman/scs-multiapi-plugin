@@ -1,0 +1,22 @@
+post:
+  operationId: exampleOperation
+  description: Example operation description
+  parameters:
+    - name: exampleParameter
+      in: query
+      required: true
+      schema:
+        type: string
+        example: exampleValue
+  requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '../components/components.yaml#/components/schemas/Example'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '../components/components.yaml#/components/schemas/Example'

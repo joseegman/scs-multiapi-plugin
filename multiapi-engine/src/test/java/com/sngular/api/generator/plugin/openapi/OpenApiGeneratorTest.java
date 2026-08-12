@@ -105,6 +105,8 @@ class OpenApiGeneratorTest {
             OpenApiGeneratorFixtures.validateWebhookPathCollision()),
         Arguments.of("testExternalPathItemRefsGeneration", OpenApiGeneratorFixtures.TEST_EXTERNAL_PATH_ITEM_REF_GENERATION,
             OpenApiGeneratorFixtures.validateExternalPathItemRefGeneration()),
+        Arguments.of("testExternalFragmentPathRefsGeneration", OpenApiGeneratorFixtures.TEST_EXTERNAL_FRAGMENT_PATH_REF_GENERATION,
+            OpenApiGeneratorFixtures.validateExternalFragmentPathRefGeneration()),
         Arguments.of("testNestedExternalRefs", OpenApiGeneratorFixtures.TEST_NESTED_EXTERNAL_REFS,
             OpenApiGeneratorFixtures.validateNestedExternalRefs()),
         Arguments.of("testNestedRefInAllOf", OpenApiGeneratorFixtures.TEST_NESTED_REF_IN_ALLOF,
