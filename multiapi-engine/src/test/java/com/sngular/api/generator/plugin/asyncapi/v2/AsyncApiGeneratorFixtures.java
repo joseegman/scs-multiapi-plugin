@@ -1118,6 +1118,7 @@ public class AsyncApiGeneratorFixtures {
 
     final List<String> expectedConsumerFiles =
         List.of(
+            ASSETS_PATH + "input/controller/Channels.java",
             ASSETS_PATH + "input/controller/IInput.java",
             ASSETS_PATH + "input/controller/Subscriber.java");
 

@@ -21,7 +21,7 @@ public class ClasspathTemplateLoader extends CommonTemplateLoader {
   private static final List<String> TEMPLATE_FILES = List.of(
       "interfaceConsumer.ftlh", "interfaceConsumerWithKafkaBindings.ftlh",
       "interfaceSupplier.ftlh", "interfaceSupplierWithKafkaBindings.ftlh",
-      "templateConsumers.ftlh", "templateConsumersWithKafkaBindings.ftlh",
+      "templateChannels.ftlh", "templateConsumers.ftlh", "templateConsumersWithKafkaBindings.ftlh",
       "templateMessageWrapper.ftlh", "templateStreamBridge.ftlh", "templateStreamBridgeWithKafkaBindings.ftlh",
       "templateSuppliers.ftlh", "templateSuppliersWithKafkaBindings.ftlh");
 

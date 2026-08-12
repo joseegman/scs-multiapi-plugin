@@ -73,6 +73,13 @@ public class AsyncApi3Handler extends BaseAsyncApiHandler {
           final JsonNode operation = entry.getValue();
           final String operationId = entry.getKey();
           final JsonNode channel = getChannelFromOperation(openApi, operation);
+          if (Objects.nonNull(fileParameter.getConsumer()) && operation.has("channel") && operation.get("channel").has(REF)) {
+            final String channelRef = ApiTool.getRefValue(operation.get("channel"));
+            final String channelName = channelRef.replaceFirst("^#/channels/", "").replace("~1", "/");
+            if (channelName.contains("{")) {
+              templateFactory.addChannel(operationId, channelName);
+            }
+          }
           processOperation(fileParameter, ymlParent, entry, channel, operationId, operation, totalSchemas);
         }
         templateFactory.fillTemplates();

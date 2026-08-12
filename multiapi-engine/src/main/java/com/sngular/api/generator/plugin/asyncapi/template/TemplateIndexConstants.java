@@ -16,6 +16,8 @@ public class TemplateIndexConstants extends CommonTemplateIndexConstants {
 
   public static final String TEMPLATE_API_STREAM_BRIDGE = "templateStreamBridge.ftlh";
 
+  public static final String TEMPLATE_API_CHANNELS = "templateChannels.ftlh";
+
   public static final String TEMPLATE_INTERFACE_SUPPLIERS = "interfaceSupplier.ftlh";
 
   public static final String TEMPLATE_INTERFACE_CONSUMERS = "interfaceConsumer.ftlh";

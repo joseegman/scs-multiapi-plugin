@@ -72,6 +72,9 @@ public class AsyncApi2Handler extends BaseAsyncApiHandler {
           final Map.Entry<String, JsonNode> entry = channelListIt.next();
           final JsonNode channel = entry.getValue();
           final String operationId = getOperationId(channel);
+          if (Objects.nonNull(fileParameter.getConsumer()) && entry.getKey().contains("{")) {
+            templateFactory.addChannel(operationId, entry.getKey());
+          }
           final JsonNode channelPayload = getChannelDefinition(channel);
           processOperation(fileParameter, ymlParent, entry, channel, operationId, channelPayload, totalSchemas);
         }

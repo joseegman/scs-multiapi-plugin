@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.sngular.api.generator.plugin.asyncapi.exception.NonSupportedBindingException;
+import com.sngular.api.generator.plugin.asyncapi.model.ChannelObject;
 import com.sngular.api.generator.plugin.asyncapi.model.MethodObject;
 import com.sngular.api.generator.plugin.asyncapi.parameter.SpecFile;
 import com.sngular.api.generator.plugin.asyncapi.util.BindingTypeEnum;
@@ -43,6 +44,8 @@ public class TemplateFactory extends CommonTemplateFactory {
 
   private final List<MethodObject> streamBridgeMethods = new ArrayList<>();
 
+  private final List<ChannelObject> channels = new ArrayList<>();
+
   private String subscribeFilePath = null;
 
   private String supplierFilePath = null;
@@ -67,6 +70,12 @@ public class TemplateFactory extends CommonTemplateFactory {
     addToRoot("publishMethods", publishMethods);
     addToRoot("subscribeMethods", subscribeMethods);
     addToRoot("streamBridgeMethods", streamBridgeMethods);
+
+    if (!channels.isEmpty() && Objects.nonNull(subscribeFilePath)) {
+      addToRoot("channels", channels);
+      fillTemplate(subscribeFilePath, "Channels", TemplateIndexConstants.TEMPLATE_API_CHANNELS);
+      delFromRoot("channels");
+    }
 
     for (final var method : publishMethods) {
       fillTemplate(supplierFilePath, supplierClassName, checkTemplate(method.getBindingType(), TemplateIndexConstants.TEMPLATE_API_SUPPLIERS));
@@ -183,6 +192,14 @@ public class TemplateFactory extends CommonTemplateFactory {
                              .build());
   }
 
+  public final void addChannel(final String operationId, final String channelName) {
+    channels.add(ChannelObject
+                     .builder()
+                     .operationId(operationId)
+                     .channelName(channelName)
+                     .build());
+  }
+
   public final void setSupplierEntitiesSuffix(final String suffix) {
     addToRoot(SUPPLIER_ENTITIES_SUFFIX, suffix);
   }
@@ -221,6 +238,7 @@ public class TemplateFactory extends CommonTemplateFactory {
     publishMethods.clear();
     subscribeMethods.clear();
     streamBridgeMethods.clear();
+    channels.clear();
   }
 
   @Override
@@ -231,6 +249,7 @@ public class TemplateFactory extends CommonTemplateFactory {
     delFromRoot("publishMethods");
     delFromRoot("subscribeMethods");
     delFromRoot("streamBridgeMethods");
+    delFromRoot("channels");
   }
 
   public final void fillTemplateWrapper(
