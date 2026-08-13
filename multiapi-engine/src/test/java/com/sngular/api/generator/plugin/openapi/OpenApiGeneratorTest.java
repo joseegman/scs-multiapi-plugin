@@ -81,6 +81,8 @@ class OpenApiGeneratorTest {
             OpenApiGeneratorFixtures.validateWebClientGeneration()),
         Arguments.of("testClientPackageWebClientApiGeneration", OpenApiGeneratorFixtures.TEST_CLIENT_PACKAGE_WEB_CLIENT_GENERATION,
             OpenApiGeneratorFixtures.validateClientPackageWebClientGeneration()),
+        Arguments.of("testClientPackageWebClientBearerAuthGeneration", OpenApiGeneratorFixtures.TEST_CLIENT_PACKAGE_WEB_CLIENT_BEARER_AUTH_GENERATION,
+            OpenApiGeneratorFixtures.validateClientPackageWebClientBearerAuthGeneration()),
         Arguments.of("testRestClientApiGeneration", OpenApiGeneratorFixtures.TEST_REST_CLIENT_GENERATION,
             OpenApiGeneratorFixtures.validateRestClientGeneration()),
         Arguments.of("testRestClientApiWithRequestObjectGeneration", OpenApiGeneratorFixtures.TEST_REST_CLIENT_API_WITH_REQUEST_OBJECTS_GENERATION,
