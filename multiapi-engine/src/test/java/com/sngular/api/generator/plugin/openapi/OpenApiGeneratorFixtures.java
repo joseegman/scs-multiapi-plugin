@@ -1687,16 +1687,6 @@ return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles,
 				DEFAULT_MODEL_API, Collections.emptyList(), null);
 	}
 
-	static Function<Path, Boolean> validateExternalResponseRef() {
-		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/testexternalresponseref";
-		final String DEFAULT_MODEL_API = "generated/com/sngular/multifileplugin/testexternalresponseref/model";
-		final String COMMON_PATH = "openapigenerator/testExternalResponseRef/";
-		final List<String> expectedTestApiFiles = List.of(COMMON_PATH + "assets/WidgetsApi.java");
-		final List<String> expectedTestApiModelFiles = List.of(COMMON_PATH + "assets/WidgetDTO.java");
-		return path -> commonTest(path, expectedTestApiFiles, expectedTestApiModelFiles, DEFAULT_TARGET_API,
-				DEFAULT_MODEL_API, Collections.emptyList(), null);
-	}
-
 	private static Boolean commonTest(final Path resultPath, final List<String> expectedFile,
 			final List<String> expectedModelFiles, final String targetApi, final String targetModel,
 			final List<String> expectedExceptionFiles, final String targetException) {
