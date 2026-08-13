@@ -22,8 +22,12 @@ class OperationParameter {
     return ids
   }
 
-  void setIds(final String ids) {
-    this.ids = ids
+  void setIds(final Object ids) {
+    if (ids instanceof Collection) {
+      this.ids = ids.join(",")
+    } else {
+      this.ids = ids?.toString()
+    }
   }
 
   String getApiPackage() {
