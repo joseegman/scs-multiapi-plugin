@@ -320,13 +320,16 @@ can be configured in the plugin.
 - **consumer**, **supplier** and **streamBridge**: They are both configured in
   the same way and can receive the same parameters. These parameters are:
   - **ids**: With this parameter you can set the operationId that you want to
-      be generated as subscriber or publisher. If this parameter is not defined for
-      the `consumer` section, all the subscribe operations defined in the YML file,
-      will be generated. If only one of `supplier` and `streamBridge` sections are
-      defined, and this parameter is not defined inside it, all the publish
-      operations defined in the YML file will be generated. If both `supplier` and
-      `streamBridge` sections are defined, it`s needed to define which operations
-      belong to each category.
+      be generated as subscriber or publisher. It can be a single
+      [`String`]: for example `ids = 'publishOperation'`, or a list of them:
+      for example `ids = ['publishOperation', 'anotherOperation']`. If a list is
+      provided, each element of the list will be generated. If this parameter is
+      not defined for the `consumer` section, all the subscribe operations defined
+      in the YML file, will be generated. If only one of `supplier` and
+      `streamBridge` sections are defined, and this parameter is not defined inside
+      it, all the publish operations defined in the YML file will be generated. If
+      both `supplier` and `streamBridge` sections are defined, it`s needed to define
+      which operations belong to each category.
   - **classNamePostfix**: This parameter receives the name of the class that
       it's going to be generated containing the Beans. This parameter is optional,
       and by default the classes will be called `Producer`, `StreamBridgeProducer`

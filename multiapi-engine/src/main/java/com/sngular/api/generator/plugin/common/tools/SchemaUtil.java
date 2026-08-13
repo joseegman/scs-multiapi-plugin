@@ -140,7 +140,7 @@ public class SchemaUtil {
     }
     try {
       final URI nestedBase = resolveActualBaseUri(baseUri, refVal);
-      final JsonNode resolved = getPojoFromRef(baseUri, refVal);
+      final JsonNode resolved = resolveExternalFileRef(baseUri, refVal);
       if (Objects.nonNull(resolved)) {
         array.set(index, resolved);
         resolveNestedFileRefs(resolved, nestedBase);
@@ -159,7 +159,7 @@ public class SchemaUtil {
     }
     try {
       final URI nestedBase = resolveActualBaseUri(baseUri, refVal);
-      final JsonNode resolved = getPojoFromRef(baseUri, refVal);
+      final JsonNode resolved = resolveExternalFileRef(baseUri, refVal);
       if (Objects.nonNull(resolved)) {
         parent.set(fieldName, resolved);
         resolveNestedFileRefs(resolved, nestedBase);
@@ -172,6 +172,33 @@ public class SchemaUtil {
 
   static URI resolveActualBaseUriPublic(final URI rootFilePath, final String filePath) {
     return resolveActualBaseUri(rootFilePath, filePath);
+  }
+
+  /**
+   * Resolves a reference that points at another file, optionally with a JSON Pointer
+   * fragment (e.g. {@code ../components/components.yaml#/components/schemas/Example}).
+   * The file itself is loaded relative to {@code baseUri} independent of the fragment, so
+   * refs living in an external Path Item file resolve against the folder of that file
+   * instead of the root contract.
+   *
+   * @param baseUri base URI of the file that contains the reference.
+   * @param refValue the raw {@code $ref} value.
+   * @return the resolved node (whole file, or the fragment target) or {@code null}.
+   */
+  private static JsonNode resolveExternalFileRef(final URI baseUri, final String refValue) {
+    JsonNode resolved = null;
+    if (StringUtils.isNotEmpty(refValue)) {
+      final var refValueArr = refValue.split("#");
+      if (refValueArr.length > 1) {
+        final var fileNode = loadAndResolveRefs(baseUri, refValueArr[0]);
+        if (ApiTool.hasComponents(fileNode)) {
+          resolved = fileNode.findValue(MapperUtil.getKey(refValueArr[1]));
+        }
+      } else {
+        resolved = loadAndResolveRefs(baseUri, refValue);
+      }
+    }
+    return resolved;
   }
 
   public static JsonNode getPojoFromRef(final URI rootFilePath, final String refPath) {

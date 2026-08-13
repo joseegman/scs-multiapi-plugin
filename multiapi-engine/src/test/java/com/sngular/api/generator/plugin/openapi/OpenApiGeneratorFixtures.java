@@ -146,12 +146,13 @@ public final class OpenApiGeneratorFixtures {
 					.clientPackage("com.sngular.multifileplugin.restclient.client").modelNamePrefix("Api")
 					.modelNameSuffix("DTO").useLombokModelAnnotation(false).callMode(true).build());
 
-	static final List<SpecFile> TEST_REST_CLIENT_API_WITH_REQUEST_OBJECTS_GENERATION = List.of(SpecFile.builder()
-			.filePath("openapigenerator/testRestClientApiWithRequestObjectGeneration/api-test.yml")
-			.apiPackage("com.sngular.multifileplugin.restclientWithRequestObjects")
-			.modelPackage("com.sngular.multifileplugin.restclientWithRequestObjects.model")
-			.clientPackage("com.sngular.multifileplugin.restclientWithRequestObjects.client").modelNamePrefix("Api")
-			.modelNameSuffix("DTO").useLombokModelAnnotation(false).callMode(true).build());
+	static final List<SpecFile> TEST_REST_CLIENT_API_WITH_REQUEST_OBJECTS_GENERATION = List
+			.of(SpecFile.builder()
+					.filePath("openapigenerator/testRestClientApiWithRequestObjectGeneration/api-test.yml")
+					.apiPackage("com.sngular.multifileplugin.restclientWithRequestObjects")
+					.modelPackage("com.sngular.multifileplugin.restclientWithRequestObjects.model")
+					.clientPackage("com.sngular.multifileplugin.restclientWithRequestObjects.client").modelNamePrefix("Api")
+					.modelNameSuffix("DTO").useLombokModelAnnotation(false).callMode(true).build());
 
 	static final List<SpecFile> TEST_ENUMS_GENERATION = List
 			.of(SpecFile.builder().filePath("openapigenerator/testApiEnumsGeneration/api-test.yml")
@@ -221,6 +222,12 @@ public final class OpenApiGeneratorFixtures {
 					.apiPackage("com.sngular.multifileplugin.externalpathitemref")
 					.modelPackage("com.sngular.multifileplugin.externalpathitemref.model")
 					.clientPackage("com.sngular.multifileplugin.externalpathitemref.client")
+					.modelNameSuffix("DTO").build());
+
+	static final List<SpecFile> TEST_EXTERNAL_FRAGMENT_PATH_REF_GENERATION = List
+			.of(SpecFile.builder().filePath("openapigenerator/testExternalFragmentPathRefs/api-test.yml")
+					.apiPackage("com.sngular.multifileplugin.externalfragmentpathref")
+					.modelPackage("com.sngular.multifileplugin.externalfragmentpathref.model")
 					.modelNameSuffix("DTO").build());
 
 	static final List<SpecFile> TEST_NESTED_EXTERNAL_REFS = List
@@ -321,10 +328,11 @@ public final class OpenApiGeneratorFixtures {
 					.clientPackage("com.sngular.multifileplugin.testsimplebuild.client").modelNameSuffix("DTO")
 					.useLombokModelAnnotation(true).build());
 
-	static final List<SpecFile> TEST_VALIDATION_ANNOTATIONS = List.of(SpecFile.builder()
-			.filePath("openapigenerator/testValidationAnnotations/api-test.yml")
-			.apiPackage("com.sngular.multifileplugin.testapi").modelPackage("com.sngular.multifileplugin.testapi.model")
-			.modelNamePrefix("Api").modelNameSuffix("DTO").build());
+	static final List<SpecFile> TEST_VALIDATION_ANNOTATIONS = List
+			.of(SpecFile.builder()
+					.filePath("openapigenerator/testValidationAnnotations/api-test.yml")
+					.apiPackage("com.sngular.multifileplugin.testapi").modelPackage("com.sngular.multifileplugin.testapi.model")
+					.modelNamePrefix("Api").modelNameSuffix("DTO").build());
 
 	static final List<SpecFile> TEST_VALIDATION_ANNOTATIONS_LOMBOK = List
 			.of(SpecFile.builder().filePath("openapigenerator/testValidationAnnotations/api-test.yml")
@@ -1134,6 +1142,25 @@ public final class OpenApiGeneratorFixtures {
     return path -> commonTest(path, expectedTestApiFile, expectedTestApiModelFiles, DEFAULT_TARGET_API,
         DEFAULT_MODEL_API, Collections.emptyList(), null);
   }
+
+	static Function<Path, Boolean> validateExternalFragmentPathRefGeneration() {
+
+		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/externalfragmentpathref";
+
+		final String DEFAULT_MODEL_API = "generated/com/sngular/multifileplugin/externalfragmentpathref/model";
+
+		final String COMMON_PATH = "openapigenerator/testExternalFragmentPathRefs/";
+
+		final String ASSETS_PATH = COMMON_PATH + "assets/";
+
+		final List<String> expectedTestApiFile = List.of(ASSETS_PATH + "V1Api.java");
+
+		final List<String> expectedTestApiModelFiles = List.of(ASSETS_PATH + "InlineObjectExampleOperationDTO.java",
+				ASSETS_PATH + "InlineResponse200ExampleOperationDTO.java");
+
+		return path -> commonTest(path, expectedTestApiFile, expectedTestApiModelFiles, DEFAULT_TARGET_API,
+				DEFAULT_MODEL_API, Collections.emptyList(), null);
+	}
 
 	static Function<Path, Boolean> validateAnyOfInResponse() {
 

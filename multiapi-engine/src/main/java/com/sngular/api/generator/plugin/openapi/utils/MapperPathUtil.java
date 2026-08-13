@@ -137,12 +137,12 @@ public class MapperPathUtil {
   private static OperationObject createOperation(
       final JsonNode operation, final String operationType, final SpecFile specFile, final GlobalObject globalObject,
       final List<String> operationIdList, final Path baseDir) {
-    Objects.requireNonNull(operation.get("tags"), "Tags element is required");
+    final JsonNode tagsNode = operation.has("tags") ? operation.get("tags") : null;
     return OperationObject.builder()
                           .operationId(mapOperationId(getOperationId(operation), operationIdList))
                           .operationType(operationType)
                           .summary(ApiTool.getNodeAsString(operation, "summary"))
-                          .tags(elementsToStrList(operation.get("tags").elements()))
+                          .tags(elementsToStrList(Objects.nonNull(tagsNode) ? tagsNode.elements() : null))
                           .requestObjects(mapRequestObject(specFile, operation, globalObject, baseDir))
                           .responseObjects(mapResponseObject(specFile, globalObject, operation, baseDir))
                           .parameterObjects(mapParameterObjects(IteratorUtils.toList(operation.at("/parameters").elements()), specFile, getOperationId(operation),
@@ -159,7 +159,9 @@ public class MapperPathUtil {
 
   private static List<String> elementsToStrList(final Iterator<JsonNode> tags) {
     final List<String> stringList = new ArrayList<>();
-    tags.forEachRemaining(tag -> stringList.add(tag.asText()));
+    if (Objects.nonNull(tags)) {
+      tags.forEachRemaining(tag -> stringList.add(tag.asText()));
+    }
     return stringList;
   }
 
