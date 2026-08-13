@@ -83,6 +83,7 @@ public class OpenApiGenerator {
 
   public final void processFileSpec(final List<SpecFile> specsListFile) {
     for (SpecFile specFile : specsListFile) {
+      authentications.clear();
       processPackage(specFile.getApiPackage());
       processFile(specFile);
       createClients(specFile);
