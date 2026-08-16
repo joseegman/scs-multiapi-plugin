@@ -1,0 +1,56 @@
+asyncapi: 2.5.0
+info:
+  title: Custom Validators Different Packages API
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
+servers:
+  local-kafka:
+    url: "localhost:9092"
+    protocol: kafka
+channels:
+  clients:
+    publish:
+      operationId: customValidatorClients
+      message:
+        $ref: "#/components/messages/dataClient"
+  response:
+    subscribe:
+      operationId: customValidatorResponse
+      message:
+        $ref: "#/components/messages/status"
+components:
+  messages:
+    status:
+      name: status
+      title: Envia status
+      schemaFormat: application/vnd.aai.asyncapi+json;version=2.0.0
+      contentType: application/json
+      payload:
+        $ref: "#/components/schemas/data"
+    dataClient:
+      name: dataClient
+      title: Datos del cliente
+      schemaFormat: application/vnd.aai.asyncapi+json;version=2.0.0
+      contentType: application/json
+      payload:
+        $ref: "#/components/schemas/data"
+  schemas:
+    data:
+      type: object
+      required:
+      - clientId
+      - clientName
+      properties:
+        clientId:
+          type: integer
+          minimum: 10
+          maximum: 200
+          description: Id del cliente.
+        clientName:
+          description: Nombre del cliente.
+          type: string
+          minLength: 50
+          maxLength: 200
+          pattern: "^[a-zA-Z0-9_.-]*$"

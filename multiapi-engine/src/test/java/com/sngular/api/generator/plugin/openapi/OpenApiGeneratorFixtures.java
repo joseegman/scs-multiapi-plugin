@@ -125,6 +125,12 @@ public final class OpenApiGeneratorFixtures {
 					.modelPackage("com.sngular.multifileplugin.pathlevelinlineparameter.model").modelNameSuffix("DTO")
 					.useTagsGroup(true).useLombokModelAnnotation(false).build());
 
+	static final List<SpecFile> TEST_NO_DESCRIPTION_REF_PARAMETER = List
+			.of(SpecFile.builder().filePath("openapigenerator/testNoDescriptionRefParameter/api-test.yml")
+					.apiPackage("com.sngular.multifileplugin.nodescriptionrefparameter")
+					.modelPackage("com.sngular.multifileplugin.nodescriptionrefparameter.model").modelNameSuffix("DTO")
+					.useLombokModelAnnotation(false).build());
+
 	static final List<SpecFile> TEST_WEB_CLIENT_GENERATION = List
 			.of(SpecFile.builder().filePath("openapigenerator/testWebClientApiGeneration/api-test.yml")
 					.apiPackage("com.sngular.multifileplugin.webclientapi")
@@ -802,6 +808,25 @@ public final class OpenApiGeneratorFixtures {
 		final String ASSETS_PATH = COMMON_PATH + "assets/";
 
 		final List<String> expectedTestApiFile = List.of(ASSETS_PATH + "RolesApi.java");
+
+		final List<String> expectedTestApiModelFiles = List.of();
+
+		return path -> commonTest(path, expectedTestApiFile, expectedTestApiModelFiles, DEFAULT_TARGET_API,
+				DEFAULT_MODEL_API, Collections.emptyList(), null);
+
+	}
+
+	static Function<Path, Boolean> validateNoDescriptionRefParameterGeneration() {
+
+		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/nodescriptionrefparameter";
+
+		final String DEFAULT_MODEL_API = "generated/com/sngular/multifileplugin/nodescriptionrefparameter/model";
+
+		final String COMMON_PATH = "openapigenerator/testNoDescriptionRefParameter/";
+
+		final String ASSETS_PATH = COMMON_PATH + "assets/";
+
+		final List<String> expectedTestApiFile = List.of(ASSETS_PATH + "TestApi.java");
 
 		final List<String> expectedTestApiModelFiles = List.of();
 

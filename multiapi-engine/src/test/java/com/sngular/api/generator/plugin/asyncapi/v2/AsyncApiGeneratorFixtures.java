@@ -145,6 +145,25 @@ public class AsyncApiGeneratorFixtures {
           .build()
   );
 
+  static final List<SpecFile> TEST_CUSTOM_VALIDATORS_DIFFERENT_PACKAGES = List.of(
+      SpecFile
+          .builder()
+          .filePath("asyncapigenerator/v2/testCustomValidatorsDifferentPackages/event-api.yml")
+          .consumer(OperationParameterObject.builder()
+              .ids("customValidatorResponse")
+              .modelNameSuffix("DTO")
+              .apiPackage("com.sngular.scsplugin.customvalidatordiff.model.event.consumer")
+              .modelPackage("com.sngular.scsplugin.customvalidatordiff.model.event.consumer")
+              .build())
+          .supplier(OperationParameterObject.builder()
+              .ids("customValidatorClients")
+              .modelNameSuffix("DTO")
+              .apiPackage("com.sngular.scsplugin.customvalidatordiff.model.event.producer")
+              .modelPackage("com.sngular.scsplugin.customvalidatordiff.model.event.producer")
+              .build())
+          .build()
+  );
+
   static final List<SpecFile> TEST_FILE_GENERATION_ISSUE = List.of(
       SpecFile
           .builder()
@@ -733,6 +752,67 @@ public class AsyncApiGeneratorFixtures {
         expectedExceptionFiles, DEFAULT_EXCEPTION_API) &&
         modelTest(path, expectedModelSchemaFiles, DEFAULT_MODEL_SCHEMA_FOLDER) &&
         customValidatorTest(path, expectedValidatorFiles, DEFAULT_CUSTOM_VALIDATOR_FOLDER);
+  }
+
+  static Function<Path, Boolean> validateCustomValidatorsDifferentPackages() {
+    final String DEFAULT_CONSUMER_MODEL_FOLDER = "generated/com/sngular/scsplugin/customvalidatordiff/model/event/consumer";
+
+    final String DEFAULT_PRODUCER_MODEL_FOLDER = "generated/com/sngular/scsplugin/customvalidatordiff/model/event/producer";
+
+    final String COMMON_PATH = "asyncapigenerator/v2/testCustomValidatorsDifferentPackages/";
+
+    final List<String> expectedValidatorFiles = List.of(
+        COMMON_PATH + "assets/customvalidator/MaxBigDecimal.java",
+        COMMON_PATH + "assets/customvalidator/MaxBigDecimalValidator.java",
+        COMMON_PATH + "assets/customvalidator/MaxDouble.java",
+        COMMON_PATH + "assets/customvalidator/MaxDoubleValidator.java",
+        COMMON_PATH + "assets/customvalidator/MaxFloat.java",
+        COMMON_PATH + "assets/customvalidator/MaxFloatValidator.java",
+        COMMON_PATH + "assets/customvalidator/MaxInteger.java",
+        COMMON_PATH + "assets/customvalidator/MaxIntegerValidator.java",
+        COMMON_PATH + "assets/customvalidator/MinBigDecimal.java",
+        COMMON_PATH + "assets/customvalidator/MinBigDecimalValidator.java",
+        COMMON_PATH + "assets/customvalidator/MinDouble.java",
+        COMMON_PATH + "assets/customvalidator/MinDoubleValidator.java",
+        COMMON_PATH + "assets/customvalidator/MinFloat.java",
+        COMMON_PATH + "assets/customvalidator/MinFloatValidator.java",
+        COMMON_PATH + "assets/customvalidator/MinInteger.java",
+        COMMON_PATH + "assets/customvalidator/MinIntegerValidator.java",
+        COMMON_PATH + "assets/customvalidator/NotNull.java",
+        COMMON_PATH + "assets/customvalidator/NotNullValidator.java",
+        COMMON_PATH + "assets/customvalidator/Pattern.java",
+        COMMON_PATH + "assets/customvalidator/PatternValidator.java",
+        COMMON_PATH + "assets/customvalidator/Size.java",
+        COMMON_PATH + "assets/customvalidator/SizeValidator.java"
+    );
+
+    final List<String> expectedProducerValidatorFiles = List.of(
+        COMMON_PATH + "assets/customvalidator_producer/MaxBigDecimal.java",
+        COMMON_PATH + "assets/customvalidator_producer/MaxBigDecimalValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/MaxDouble.java",
+        COMMON_PATH + "assets/customvalidator_producer/MaxDoubleValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/MaxFloat.java",
+        COMMON_PATH + "assets/customvalidator_producer/MaxFloatValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/MaxInteger.java",
+        COMMON_PATH + "assets/customvalidator_producer/MaxIntegerValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/MinBigDecimal.java",
+        COMMON_PATH + "assets/customvalidator_producer/MinBigDecimalValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/MinDouble.java",
+        COMMON_PATH + "assets/customvalidator_producer/MinDoubleValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/MinFloat.java",
+        COMMON_PATH + "assets/customvalidator_producer/MinFloatValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/MinInteger.java",
+        COMMON_PATH + "assets/customvalidator_producer/MinIntegerValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/NotNull.java",
+        COMMON_PATH + "assets/customvalidator_producer/NotNullValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/Pattern.java",
+        COMMON_PATH + "assets/customvalidator_producer/PatternValidator.java",
+        COMMON_PATH + "assets/customvalidator_producer/Size.java",
+        COMMON_PATH + "assets/customvalidator_producer/SizeValidator.java"
+    );
+
+    return path -> customValidatorTest(path, expectedValidatorFiles, DEFAULT_CONSUMER_MODEL_FOLDER + "/customvalidator") &&
+        customValidatorTest(path, expectedProducerValidatorFiles, DEFAULT_PRODUCER_MODEL_FOLDER + "/customvalidator");
   }
 
   private static String calculateJavaEEPackage(final int springBootVersion) {

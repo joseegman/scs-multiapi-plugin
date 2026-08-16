@@ -1,0 +1,38 @@
+openapi: 3.0.3
+info:
+  title: test
+  version: 11.0.0
+servers:
+- url: https://to_be_defined
+paths:
+  '/test/{testId}':
+    get:
+      tags:
+      - Test
+      summary: test
+      description: test
+      operationId: Retrieve
+      parameters:
+      - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          $ref: '#/components/responses/TestResponse'
+components:
+  parameters:
+    testId:
+      name: testId
+      in: path
+      required: true
+      style: simple
+      schema:
+        type: string
+  schemas:
+    TestResponse:
+      type: string
+  responses:
+    TestResponse:
+      description: CustomerPositionStateResponse
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TestResponse'
