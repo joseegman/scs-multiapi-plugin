@@ -119,6 +119,12 @@ public final class OpenApiGeneratorFixtures {
 					.modelPackage("com.sngular.multifileplugin.pathparameter.model").modelNameSuffix("DTO")
 					.useLombokModelAnnotation(false).build());
 
+	static final List<SpecFile> TEST_PATH_LEVEL_INLINE_PARAMETER_GENERATION = List
+			.of(SpecFile.builder().filePath("openapigenerator/testPathLevelInlineParameter/api-test.yml")
+					.apiPackage("com.sngular.multifileplugin.pathlevelinlineparameter")
+					.modelPackage("com.sngular.multifileplugin.pathlevelinlineparameter.model").modelNameSuffix("DTO")
+					.useTagsGroup(true).useLombokModelAnnotation(false).build());
+
 	static final List<SpecFile> TEST_WEB_CLIENT_GENERATION = List
 			.of(SpecFile.builder().filePath("openapigenerator/testWebClientApiGeneration/api-test.yml")
 					.apiPackage("com.sngular.multifileplugin.webclientapi")
@@ -779,6 +785,25 @@ public final class OpenApiGeneratorFixtures {
 
 		final List<String> expectedTestApiModelFiles = List.of(ASSETS_PATH + "ErrorDTO.java",
 				ASSETS_PATH + "TestDTO.java", ASSETS_PATH + "TestInfoDTO.java");
+
+		return path -> commonTest(path, expectedTestApiFile, expectedTestApiModelFiles, DEFAULT_TARGET_API,
+				DEFAULT_MODEL_API, Collections.emptyList(), null);
+
+	}
+
+	static Function<Path, Boolean> validatePathLevelInlineParameterGeneration() {
+
+		final String DEFAULT_TARGET_API = "generated/com/sngular/multifileplugin/pathlevelinlineparameter";
+
+		final String DEFAULT_MODEL_API = "generated/com/sngular/multifileplugin/pathlevelinlineparameter/model";
+
+		final String COMMON_PATH = "openapigenerator/testPathLevelInlineParameter/";
+
+		final String ASSETS_PATH = COMMON_PATH + "assets/";
+
+		final List<String> expectedTestApiFile = List.of(ASSETS_PATH + "RolesApi.java");
+
+		final List<String> expectedTestApiModelFiles = List.of();
 
 		return path -> commonTest(path, expectedTestApiFile, expectedTestApiModelFiles, DEFAULT_TARGET_API,
 				DEFAULT_MODEL_API, Collections.emptyList(), null);

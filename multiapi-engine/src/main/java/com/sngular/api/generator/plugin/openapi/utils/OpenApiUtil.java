@@ -83,10 +83,21 @@ public class OpenApiUtil {
       final var method = operations.next();
       if (ApiTool.hasNode(method.getValue(), "tags")) {
         final var tag = ApiTool.getNode(method.getValue(), "tags").elements().next().asText();
-        mapByTag.put(tag, Map.of(pathItem.getKey(), new ObjectNode(JsonNodeFactory.instance, Map.ofEntries(method))));
+        mapByTag.put(tag, Map.of(pathItem.getKey(), buildTaggedPathItem(pathItem.getValue(), method)));
       }
     }
     return mapByTag;
+  }
+
+  private static ObjectNode buildTaggedPathItem(final JsonNode pathItem, final Entry<String, JsonNode> method) {
+    final var taggedPathItem = JsonNodeFactory.instance.objectNode();
+    taggedPathItem.set(method.getKey(), method.getValue());
+    pathItem.fields().forEachRemaining(field -> {
+      if (!REST_VERB_SET.contains(field.getKey()) && !taggedPathItem.has(field.getKey())) {
+        taggedPathItem.set(field.getKey(), field.getValue());
+      }
+    });
+    return taggedPathItem;
   }
 
   public static JsonNode getPojoFromSpecFile(final Path baseDir, final SpecFile specFile) {

@@ -77,6 +77,8 @@ class OpenApiGeneratorTest {
             OpenApiGeneratorFixtures.validateMultipleRefGeneration()),
         Arguments.of("testApiPathParameterGeneration", OpenApiGeneratorFixtures.TEST_PATH_PARAMETER_GENERATION,
             OpenApiGeneratorFixtures.validatePathParameterGeneration()),
+        Arguments.of("testPathLevelInlineParameterGeneration", OpenApiGeneratorFixtures.TEST_PATH_LEVEL_INLINE_PARAMETER_GENERATION,
+            OpenApiGeneratorFixtures.validatePathLevelInlineParameterGeneration()),
         Arguments.of("testWebClientApiGeneration", OpenApiGeneratorFixtures.TEST_WEB_CLIENT_GENERATION,
             OpenApiGeneratorFixtures.validateWebClientGeneration()),
         Arguments.of("testClientPackageWebClientApiGeneration", OpenApiGeneratorFixtures.TEST_CLIENT_PACKAGE_WEB_CLIENT_GENERATION,
