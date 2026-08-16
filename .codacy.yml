@@ -17,4 +17,5 @@
 exclude_paths:
   - 'scs-multiapi-gradle-plugin/src/main/groovy/com/sngular/api/generator/plugin/*Task.groovy'
   - 'scs-multiapi-gradle-plugin/src/main/groovy/com/sngular/api/generator/plugin/model/*SpecFile.groovy'
+  - 'scs-multiapi-gradle-plugin/src/main/groovy/com/sngular/api/generator/plugin/model/OperationParameter.groovy'
   - '**/src/test/resources/**'
