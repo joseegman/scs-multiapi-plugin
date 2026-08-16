@@ -70,6 +70,8 @@ class AsyncApiGeneratorTest {
         Arguments.of("TestCustomValidators", AsyncApiGeneratorFixtures.TEST_CUSTOM_VALIDATORS, AsyncApiGeneratorFixtures.validateCustomValidators(SPRING_BOOT_VERSION)),
         Arguments.of("TestCustomValidatorsDifferentPackages", AsyncApiGeneratorFixtures.TEST_CUSTOM_VALIDATORS_DIFFERENT_PACKAGES,
             AsyncApiGeneratorFixtures.validateCustomValidatorsDifferentPackages()),
+        Arguments.of("TestIssue248CustomValidators", AsyncApiGeneratorFixtures.TEST_ISSUE_248_GENERATION,
+            AsyncApiGeneratorFixtures.validateIssue248PackageFolderAlignment()),
         Arguments.of("TestModelClassExceptionGeneration", AsyncApiGeneratorFixtures.TEST_MODEL_CLASS_EXCEPTION_GENERATION,
             AsyncApiGeneratorFixtures.validateTestModelClassExceptionGeneration()),
         Arguments.of("TestNoSchemas", AsyncApiGeneratorFixtures.TEST_NO_SCHEMAS, AsyncApiGeneratorFixtures.validateNoSchemas()),

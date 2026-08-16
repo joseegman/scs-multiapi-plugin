@@ -9,11 +9,14 @@ package com.sngular.api.generator.plugin.asyncapi.v2;
 import static java.util.Collections.singletonList;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import com.sngular.api.generator.plugin.asyncapi.parameter.OperationParameterObject;
 import com.sngular.api.generator.plugin.asyncapi.parameter.SpecFile;
@@ -141,6 +144,25 @@ public class AsyncApiGeneratorFixtures {
               .modelNameSuffix("DTO")
               .apiPackage("com.sngular.scsplugin.customvalidator.model.event.producer")
               .modelPackage("com.sngular.scsplugin.customvalidator.model.event")
+              .build())
+          .build()
+  );
+
+  static final List<SpecFile> TEST_ISSUE_248_GENERATION = List.of(
+      SpecFile
+          .builder()
+          .filePath("asyncapigenerator/v2/testIssueCustomValidators248/event-api.yml")
+          .consumer(OperationParameterObject.builder()
+              .ids("publishOrder")
+              .modelNameSuffix("DTO")
+              .apiPackage("com.sngular.scsplugin.issue248.model.event.consumer")
+              .modelPackage("com.sngular.scsplugin.issue248.model.event")
+              .build())
+          .supplier(OperationParameterObject.builder()
+              .ids("subscribeOrder")
+              .modelNameSuffix("DTO")
+              .apiPackage("com.sngular.scsplugin.issue248.model.event.producer")
+              .modelPackage("com.sngular.scsplugin.issue248.model.event")
               .build())
           .build()
   );
@@ -752,6 +774,34 @@ public class AsyncApiGeneratorFixtures {
         expectedExceptionFiles, DEFAULT_EXCEPTION_API) &&
         modelTest(path, expectedModelSchemaFiles, DEFAULT_MODEL_SCHEMA_FOLDER) &&
         customValidatorTest(path, expectedValidatorFiles, DEFAULT_CUSTOM_VALIDATOR_FOLDER);
+  }
+
+  static Function<Path, Boolean> validateIssue248PackageFolderAlignment() {
+    return path -> {
+      final Path pathToTarget = Path.of(path.toString(), "target", "generated");
+      Boolean result = Boolean.TRUE;
+      try (final Stream<Path> javaFiles = Files.walk(pathToTarget)) {
+        final List<Path> generatedFiles = javaFiles
+            .filter(Files::isRegularFile)
+            .filter(p -> p.toString().endsWith(".java"))
+            .toList();
+        Assertions.assertThat(generatedFiles).isNotEmpty();
+        for (final Path javaFile : generatedFiles) {
+          final String packageDeclaration = Files.readAllLines(javaFile).stream()
+              .filter(line -> line.startsWith("package "))
+              .findFirst()
+              .map(line -> line.replace("package ", "").replace(";", "").trim())
+              .orElseThrow();
+          final String expectedPackage = pathToTarget.relativize(javaFile).getParent().toString().replace(File.separatorChar, '.');
+          Assertions.assertThat(packageDeclaration)
+              .overridingErrorMessage("File %s declares package %s but lives in folder matching %s", javaFile, packageDeclaration, expectedPackage)
+              .isEqualTo(expectedPackage);
+        }
+      } catch (final IOException e) {
+        result = Boolean.FALSE;
+      }
+      return result;
+    };
   }
 
   static Function<Path, Boolean> validateCustomValidatorsDifferentPackages() {

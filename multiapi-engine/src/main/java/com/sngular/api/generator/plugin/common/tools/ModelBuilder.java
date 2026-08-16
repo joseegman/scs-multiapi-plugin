@@ -187,6 +187,8 @@ public final class ModelBuilder {
       final var refSchema = totalSchemas.get(MapperUtil.getRefSchemaKey(schema));
       ApiTool.getProperties(refSchema).forEachRemaining(processProperties(buildingSchema, totalSchemas, compositedSchemas, fieldObjectArrayList, specFile, refSchema, antiLoopList,
                                                                           baseDir));
+    } else if (ApiTool.isInlineObject(schema)) {
+      schema.fields().forEachRemaining(processProperties(nameSchema, totalSchemas, compositedSchemas, fieldObjectArrayList, specFile, schema, antiLoopList, baseDir));
     } else {
       fieldObjectArrayList.add(SchemaFieldObject.builder()
                                                 .baseName(ApiTool.getName(schema))

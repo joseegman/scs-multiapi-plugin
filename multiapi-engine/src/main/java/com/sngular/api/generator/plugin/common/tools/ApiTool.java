@@ -417,6 +417,26 @@ public final class ApiTool {
     return getNode(schema, "patternProperties");
   }
 
+  public static boolean isInlineObject(final JsonNode schema) {
+    return Objects.nonNull(schema) && schema.isObject() && !hasType(schema) && !hasNode(schema, "properties")
+           && !hasNode(schema, "$ref") && !isComposed(schema) && !hasNode(schema, "items") && !hasNode(schema, "enum")
+           && !hasNode(schema, "additionalProperties") && !hasNode(schema, "patternProperties")
+           && hasNonSchemaFields(schema);
+  }
+
+  private static boolean hasNonSchemaFields(final JsonNode schema) {
+    final Iterator<Entry<String, JsonNode>> fields = schema.fields();
+    return fields.hasNext() && !isSchemaKeyword(fields.next().getKey());
+  }
+
+  private static boolean isSchemaKeyword(final String fieldName) {
+    return "type".equals(fieldName) || "title".equals(fieldName) || "description".equals(fieldName)
+           || "required".equals(fieldName) || "nullable".equals(fieldName) || "deprecated".equals(fieldName)
+           || "example".equals(fieldName) || "default".equals(fieldName) || "format".equals(fieldName)
+           || "const".equals(fieldName) || "readOnly".equals(fieldName) || "writeOnly".equals(fieldName)
+           || "discriminator".equals(fieldName) || "xml".equals(fieldName) || "externalDocs".equals(fieldName);
+  }
+
   public static boolean hasPrefixItems(final JsonNode schema) {
     return hasNode(schema, "prefixItems");
   }
