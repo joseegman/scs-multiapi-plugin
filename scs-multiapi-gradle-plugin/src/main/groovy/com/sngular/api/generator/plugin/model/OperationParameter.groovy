@@ -6,6 +6,8 @@
 
 package com.sngular.api.generator.plugin.model
 
+import com.sngular.api.generator.plugin.common.model.TypeConstants
+
 class OperationParameter {
 
   String ids
@@ -14,9 +16,19 @@ class OperationParameter {
 
   String modelPackage
 
+  String modelNamePrefix
+
   String modelNameSuffix
 
   String classNamePostfix
+
+  String dateFormat
+
+  String dateTimeFormat
+
+  TypeConstants.TimeType useTimeType
+
+  boolean useLombokModelAnnotation
 
   String getIds() {
     return ids
@@ -46,6 +58,14 @@ class OperationParameter {
     this.modelPackage = modelPackage
   }
 
+  String getModelNamePrefix() {
+    return modelNamePrefix
+  }
+
+  void setModelNamePrefix(final String modelNamePrefix) {
+    this.modelNamePrefix = modelNamePrefix
+  }
+
   String getModelNameSuffix() {
     return modelNameSuffix
   }
@@ -60,6 +80,38 @@ class OperationParameter {
 
   void setClassNamePostfix(final String classNamePostfix) {
     this.classNamePostfix = classNamePostfix
+  }
+
+  String getDateFormat() {
+    return dateFormat
+  }
+
+  void setDateFormat(final String dateFormat) {
+    this.dateFormat = dateFormat
+  }
+
+  String getDateTimeFormat() {
+    return dateTimeFormat
+  }
+
+  void setDateTimeFormat(final String dateTimeFormat) {
+    this.dateTimeFormat = dateTimeFormat
+  }
+
+  TypeConstants.TimeType getUseTimeType() {
+    return useTimeType
+  }
+
+  void setUseTimeType(final TypeConstants.TimeType useTimeType) {
+    this.useTimeType = useTimeType
+  }
+
+  boolean getUseLombokModelAnnotation() {
+    return useLombokModelAnnotation
+  }
+
+  void setUseLombokModelAnnotation(final boolean useLombokModelAnnotation) {
+    this.useLombokModelAnnotation = useLombokModelAnnotation
   }
 
 }
